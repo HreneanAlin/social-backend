@@ -1,0 +1,20 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#fbd6b9",
+        "activityBar.activeBorder": "#099747",
+        "activityBar.background": "#fbd6b9",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#099747",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "statusBar.background": "#f8b989",
+        "statusBar.foreground": "#15202b",
+        "statusBarItem.hoverBackground": "#f59c59",
+        "titleBar.activeBackground": "#f8b989",
+        "titleBar.activeForeground": "#15202b",
+        "titleBar.inactiveBackground": "#f8b98999",
+        "titleBar.inactiveForeground": "#15202b99"
+    },
+    "peacock.color": "#f8b989",
+    "python.pythonPath": "/Users/alinhrenean/.local/share/virtualenvs/faceRequired-fTPg3mwT/bin/python"
+}

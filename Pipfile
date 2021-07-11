@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+graphene-django = ">=2.0"
+pillow = "*"
+graphene-file-upload = "*"
+django-cors-headers = "*"
+pyjwt = "==1.7.0"
+django-graphql-auth = "*"
+django-graphql-jwt = "==0.3.0"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
