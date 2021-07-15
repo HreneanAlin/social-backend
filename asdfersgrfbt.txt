@@ -1,4 +1,0 @@
-graphene-subscriptions = "*"
-channels = "*"
-async-rx = "*"
-rx = "<2"
