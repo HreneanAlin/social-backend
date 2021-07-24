@@ -3,7 +3,8 @@ import graphene
 from graphene_django import DjangoObjectType
 from .models import Post, PostImage, PostComment
 from .graphql_types import PostType, PostImage, PostCommentType
-
+from rx import Observable
+from graphene_subscriptions.events import CREATED
 
 class PostPagination(graphene.ObjectType):
     hasNext = graphene.Boolean()
@@ -17,6 +18,7 @@ class CommentPagination(graphene.ObjectType):
 
 
 class PostQuery(graphene.ObjectType):
+    hello = graphene.String()
     my_posts = graphene.List(PostType)
     posts_by_username_pagination = graphene.Field(PostPagination, username=graphene.String(
     ), first=graphene.Int(), skip=graphene.Int(required=False))
@@ -50,3 +52,7 @@ class PostQuery(graphene.ObjectType):
         if len(qs) < first:
             hasNext = False
         return CommentPagination(comments_by_post=qs, hasNext=hasNext)
+
+    def resolve_hello(root, info):
+        return Observable.interval(3000) \
+            .map(lambda i: "hello world!")

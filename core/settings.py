@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'graphql_auth',
     'django_filters',
-  #  'channels',
-    #'graphene_subscriptions',
+    'channels',
+    'graphene_subscriptions',
     'users',
     'temporary_images',
     'posts'
@@ -103,6 +103,7 @@ DATABASES = {
 
     }
 }
+
 
 
 # Password validation

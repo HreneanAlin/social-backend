@@ -7,6 +7,7 @@ from users.queries import UsersQuery
 from temporary_images.schema import TemporaryImageMutation
 from posts.queries import PostQuery
 from posts.mutations import PostMutation
+from posts.subscriptions import PostsSubscription
 
 
 
@@ -17,7 +18,7 @@ class Query(PostQuery,UsersQuery, MeQuery, graphene.ObjectType):
     pass
 
 
-class Subscription(PostQuery):
+class Subscription(PostsSubscription):
     pass
 
 schema = graphene.Schema(query=Query, mutation=Mutation,subscription=Subscription)

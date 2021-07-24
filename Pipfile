@@ -13,6 +13,7 @@ pyjwt = "==1.7.0"
 django-graphql-auth = "*"
 django-graphql-jwt = "==0.3.0"
 psycopg2 = "*"
+graphene-subscriptions = "*"
 
 [dev-packages]
 autopep8 = "*"

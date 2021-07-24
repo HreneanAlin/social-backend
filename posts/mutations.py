@@ -2,7 +2,8 @@ import graphene
 from graphene_file_upload.scalars import Upload
 from graphene_django import DjangoObjectType
 from .models import Post,PostImage, PostComment
-
+from graphene_subscriptions.events import SubscriptionEvent
+from .events import NEW_POST_COMMENT
 class ImageDescType(graphene.InputObjectType):
     description = graphene.String()
     file = Upload()
@@ -47,6 +48,8 @@ class AddCommentPost(graphene.Mutation):
             current_post = Post.objects.get(id=post_id)
             comment = PostComment(user=current_user,text=comment_text,post=current_post)
             comment.save()
+            event = SubscriptionEvent(operation=NEW_POST_COMMENT,instance=comment)
+            event.send()
             return AddCommentPost(success = True)
         except:
             return AddCommentPost(success = False)
