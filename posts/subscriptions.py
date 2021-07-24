@@ -11,7 +11,6 @@ class PostsSubscription(graphene.ObjectType):
     new_post_comment = graphene.Field(PostCommentType,post_id=graphene.Int(required=True))
 
     def resolve_new_post_comment(root,info,post_id):
-         print("the root",root)
          return root.filter(
             lambda event:
                 event.operation == NEW_POST_COMMENT and

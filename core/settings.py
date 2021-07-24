@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'graphene_subscriptions',
     'users',
     'temporary_images',
-    'posts'
+    'posts',
+    "friend_requests"
 ]
 
 MIDDLEWARE = [
@@ -171,12 +172,7 @@ GRAPHENE = {
 
 }
 
-#maybe redis instance needed
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
-}
+
 
 ASGI_APPLICATION = "core.routing.application"
 
@@ -212,6 +208,13 @@ GRAPHQL_JWT = {
     ],
     "JWT_VERIFY_EXPIRATION": True,
     "JWT_LONG_RUNNING_REFRESH_TOKEN": True
+}
+
+#maybe redis instance needed
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
 }
 
 

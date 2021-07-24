@@ -8,17 +8,22 @@ from temporary_images.schema import TemporaryImageMutation
 from posts.queries import PostQuery
 from posts.mutations import PostMutation
 from posts.subscriptions import PostsSubscription
+from friend_requests.mutations import FriendRequestMutation
+from friend_requests.queries import FriendRequestQuery
+from friend_requests.subscriptions import FriendRequestSubscription
 
 
-
-class Mutation(PostMutation, AuthMutation,TemporaryImageMutation,graphene.ObjectType):
+class Mutation(PostMutation, AuthMutation, TemporaryImageMutation, FriendRequestMutation, graphene.ObjectType):
     pass
 
-class Query(PostQuery,UsersQuery, MeQuery, graphene.ObjectType):
+
+class Query(PostQuery, UsersQuery, MeQuery, FriendRequestQuery, graphene.ObjectType):
     pass
 
 
-class Subscription(PostsSubscription):
+class Subscription(PostsSubscription,FriendRequestSubscription):
     pass
 
-schema = graphene.Schema(query=Query, mutation=Mutation,subscription=Subscription)
+
+schema = graphene.Schema(query=Query, mutation=Mutation,
+                         subscription=Subscription)
