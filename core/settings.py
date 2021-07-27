@@ -62,7 +62,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
 ]
+CORS_ALLOWED_ORIGINS = [
 
+    "http://localhost:3002",
+
+]
+CORS_ALLOW_CREDENTIALS = True
+SESSION_COOKIE_DOMAIN= "127.0.0.1"
+SESSION_COOKIE_SECURE= False
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
@@ -224,8 +231,3 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_PASSWORD = 'kill4kimora'
-CORS_ALLOWED_ORIGINS = [
-
-    "http://localhost:3002",
-
-]

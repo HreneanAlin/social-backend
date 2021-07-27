@@ -20,6 +20,7 @@ class SendFriendRequest(graphene.Mutation):
             friend_request = FriendRequest(
                 user_from=current_user, user_to=user_to_send)
             friend_request.save()
+            print("id1 ",friend_request.user_to.username)
             event = SubscriptionEvent(operation=NEW_FRIEND_REQUEST,instance=friend_request)
             event.send()
             return SendFriendRequest(success=True)

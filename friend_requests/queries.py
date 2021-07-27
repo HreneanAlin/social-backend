@@ -8,6 +8,5 @@ class FriendRequestQuery(graphene.ObjectType):
     def resolve_my_friend_requests(root,info):
         current_user = info.context.user
         qs = FriendRequest.objects.filter(user_to__username=current_user.username)
-        print(qs)
         return qs
         
