@@ -12,6 +12,7 @@ class ExtendUser(AbstractUser):
     profile_picture = models.ImageField(upload_to=upload_path)
     my_test = models.CharField(max_length=255,verbose_name='my_test',blank=True)
     friends = models.ManyToManyField("ExtendUser",blank=True)
+    declined_friends = models.ManyToManyField("ExtendUser",blank=True,related_name="declined")
 
     USERNAME_FIELD = 'username'
     EMAIL_FIELD = 'email'

@@ -52,9 +52,31 @@ class AcceptFriendRequest(graphene.Mutation):
             print(friend_request)
             return AcceptFriendRequest(success=True)
         except:
-            return SendFriendRequest(success=False)
+            return AcceptFriendRequest(success=False)
+
+
+class DeclineFriendRequest(graphene.Mutation):
+    class Arguments:
+        friend_request_id = graphene.Int()
+
+    success = graphene.Boolean()
+
+    @classmethod
+    def mutate(cls, root, info, friend_request_id):
+        try:
+            current_user = info.context.user
+            friend_request = FriendRequest.objects.filter(
+                user_to=current_user).filter(status=PENDING).get(id=friend_request_id)
+            friend_request.status = DECLINED
+            friend_request.save()
+            current_user.declined_friends.add(friend_request.user_from)
+            current_user.save()
+            return DeclineFriendRequest(success=True)
+        except:
+            return DeclineFriendRequest(success=False)
 
 
 class FriendRequestMutation(graphene.ObjectType):
     send_friend_request = SendFriendRequest.Field()
     accept_friend_request = AcceptFriendRequest.Field()
+    decline_friend_request = DeclineFriendRequest.Field()
