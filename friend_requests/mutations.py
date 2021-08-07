@@ -47,6 +47,8 @@ class AcceptFriendRequest(graphene.Mutation):
             friend_request.save()
             current_user.friends.add(friend_request.user_from)
             current_user.save()
+            friend_request.user_from.friends.add(current_user)
+            friend_request.user_from.save()
             print(friend_request)
             return AcceptFriendRequest(success=True)
         except:
