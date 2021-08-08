@@ -1,4 +1,5 @@
 import graphene
+from graphene_django import DjangoObjectType
 from django.utils.module_loading import import_string
 from django import forms
 from django.db import transaction
@@ -12,11 +13,18 @@ from graphql_auth.constants import Messages
 from graphql_auth.settings import graphql_auth_settings as app_settings
 from graphene_file_upload.scalars import Upload
 from django.contrib.auth import get_user_model
+from .models import ExtendUser
 
 if app_settings.EMAIL_ASYNC_TASK and isinstance(app_settings.EMAIL_ASYNC_TASK, str):
     async_email_func = import_string(app_settings.EMAIL_ASYNC_TASK)
 else:
     async_email_func = None
+
+
+class CoverImageUserType(DjangoObjectType):
+    class Meta:
+        model = ExtendUser
+        fields = ("cover_image","id")
 
 
 class CostumeRegister(mutations.Register):
@@ -78,3 +86,17 @@ class CostumeRegister(mutations.Register):
             )
         except SMTPException:
             return cls(success=False, errors=Messages.EMAIL_FAIL)
+
+
+class ChangeCoverImage(graphene.Mutation):
+    class Arguments:
+        cover_image = Upload(required=True)
+
+    user_cover_image = graphene.Field(CoverImageUserType)
+
+    @classmethod
+    def mutate(cls, root, info, cover_image):
+        current_user = info.context.user
+        current_user.cover_image = cover_image
+        current_user.save()
+        return ChangeCoverImage(user_cover_image=current_user)

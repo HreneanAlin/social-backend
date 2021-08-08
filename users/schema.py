@@ -1,7 +1,7 @@
 
 import graphene
 from graphql_auth import mutations
-from .mutations import CostumeRegister
+from .mutations import CostumeRegister, ChangeCoverImage
 
 
 class AuthMutation(graphene.ObjectType):
@@ -15,3 +15,4 @@ class AuthMutation(graphene.ObjectType):
     delete_account = mutations.DeleteAccount.Field()
     refresh_token = mutations.RefreshToken.Field()
     revoke_token = mutations.RevokeToken.Field()
+    change_cover_image = ChangeCoverImage.Field()
