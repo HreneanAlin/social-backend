@@ -1,3 +1,4 @@
+import itertools
 import graphene
 # from rx import Observable
 from graphene_django import DjangoObjectType
@@ -5,6 +6,7 @@ from .models import Post, PostImage, PostComment
 from .graphql_types import PostType, PostImage, PostCommentType
 from rx import Observable
 from graphene_subscriptions.events import CREATED
+
 
 class PostPagination(graphene.ObjectType):
     hasNext = graphene.Boolean()
@@ -22,6 +24,8 @@ class PostQuery(graphene.ObjectType):
     my_posts = graphene.List(PostType)
     posts_by_username_pagination = graphene.Field(PostPagination, username=graphene.String(
     ), first=graphene.Int(), skip=graphene.Int(required=False))
+    my_posts_and_friends_pagination = graphene.Field(
+        PostPagination, first=graphene.Int(), skip=graphene.Int(required=False))
     comments_by_post = graphene.List(
         PostCommentType, post_id=graphene.Int(required=True))
     comments_by_post_pagination = graphene.Field(CommentPagination, post_id=graphene.Int(
@@ -40,6 +44,22 @@ class PostQuery(graphene.ObjectType):
             hasNext = False
 
         return PostPagination(posts_by_username=qs, hasNext=hasNext)
+
+    def resolve_my_posts_and_friends_pagination(root, info, first=10, skip=0, **kwargs):
+        hasNext = True
+        current_user = info.context.user
+        qs = Post.objects.filter(user = current_user).order_by("-id")
+        for friend in current_user.friends.all():
+            qs_friend = Post.objects.filter(user = friend).order_by("-id")
+            qs = itertools.chain(qs,qs_friend)
+        qs = list(qs)
+        qs = sorted(qs, key=lambda post:post.id, reverse=True)  
+        qs = qs[skip:]
+        qs = qs[:first]
+        if len(qs) < first:
+            hasNext = False
+        return PostPagination(posts_by_username=qs, hasNext=hasNext)    
+
 
     def resolve_comments_by_post(root, info, post_id):
         return PostComment.objects.filter(post__id=post_id)
